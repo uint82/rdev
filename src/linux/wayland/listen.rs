@@ -51,10 +51,21 @@ fn convert_type(libevent: LibEvent) -> Option<EventType> {
             x: btn.absolute_x(),
             y: btn.absolute_y(),
         }),
-        LibEvent::Pointer(PointerEvent::ScrollWheel(btn)) => Some(EventType::Wheel {
-            delta_x: -(btn.scroll_value_v120(Axis::Horizontal) / 120.0) as i64,
-            delta_y: -(btn.scroll_value_v120(Axis::Vertical) / 120.0) as i64,
-        }),
+        LibEvent::Pointer(PointerEvent::ScrollWheel(btn)) => {
+            let delta_x = if btn.has_axis(Axis::Horizontal) {
+                -(btn.scroll_value_v120(Axis::Horizontal) / 120.0) as i64
+            } else {
+                0
+            };
+
+            let delta_y = if btn.has_axis(Axis::Vertical) {
+                -(btn.scroll_value_v120(Axis::Vertical) / 120.0) as i64
+            } else {
+                0
+            };
+
+            Some(EventType::Wheel { delta_x, delta_y })
+        }
         _ => {
             // dbg!(format!("Received unhandlded event {lib:?}"));
             None

@@ -5,7 +5,7 @@ use crate::rdev::{Event, KeyboardState, ListenError};
 use crate::{Button, EventType};
 use input::event::PointerEvent;
 use input::event::keyboard::{KeyState, KeyboardEventTrait};
-use input::event::pointer::{Axis, ButtonState};
+use input::event::pointer::{Axis, ButtonState, PointerScrollEvent};
 use input::{Event as LibEvent, Libinput, LibinputInterface};
 use libc::{O_RDONLY, O_RDWR, O_WRONLY};
 use std::fs::{File, OpenOptions};
